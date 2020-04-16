@@ -1,0 +1,5 @@
+name: Dimensions
+main: ru.nukkitx.Dimensions
+api: "1.0.9"
+version: "${pom.version}"
+author: C1oky
