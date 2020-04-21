@@ -10,6 +10,7 @@ import cn.nukkit.event.entity.EntityLevelChangeEvent;
 import cn.nukkit.event.player.PlayerDeathEvent;
 import cn.nukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import cn.nukkit.event.server.DataPacketSendEvent;
+import cn.nukkit.level.Level;
 import cn.nukkit.network.protocol.ChangeDimensionPacket;
 import cn.nukkit.network.protocol.DataPacket;
 import cn.nukkit.network.protocol.PlayStatusPacket;
@@ -35,8 +36,10 @@ public class Dimensions extends PluginBase implements Listener {
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
+    	if(event.getEntity().getLocation().getLevel().getDimension() != Level.DIMENSION_OVERWORLD) {
+    		 Player player = event.getEntity();
+    	     player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
+    	}       
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
