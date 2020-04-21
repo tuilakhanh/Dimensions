@@ -7,6 +7,8 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.entity.EntityLevelChangeEvent;
+import cn.nukkit.event.player.PlayerDeathEvent;
+import cn.nukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import cn.nukkit.event.server.DataPacketSendEvent;
 import cn.nukkit.network.protocol.ChangeDimensionPacket;
 import cn.nukkit.network.protocol.DataPacket;
@@ -20,7 +22,7 @@ public class Dimensions extends PluginBase implements Listener {
         Server.getInstance().getPluginManager().registerEvents(this, this);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDataPacketSend(DataPacketSendEvent event) {
         DataPacket packet = event.getPacket();
         Player player = event.getPlayer();
@@ -30,8 +32,14 @@ public class Dimensions extends PluginBase implements Listener {
             startGamePacket.dimension = (byte) player.getLevel().getDimension();
         }
     }
+    
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
+    }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onLevelChange(EntityLevelChangeEvent event) {
         Entity entity = event.getEntity();
 
