@@ -34,6 +34,12 @@ public class Dimensions extends PluginBase implements Listener {
         }
     }
     
+    /*
+     *
+     * Very bad fix, but so far I haven’t come up with another
+     *
+     */
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
     	if(event.getEntity().getLocation().getLevel().getDimension() != Level.DIMENSION_OVERWORLD) {
@@ -75,17 +81,5 @@ public class Dimensions extends PluginBase implements Listener {
                 player.dataPacket(playStatusPacket);
             }
         }
-    }
-
-    /*
-     *
-     * Very bad fix, but so far I haven’t come up with another
-     *
-     */
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        player.teleport(Server.getInstance().getDefaultLevel().getSpawnLocation());
     }
 }
