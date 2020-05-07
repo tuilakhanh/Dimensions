@@ -8,6 +8,7 @@ import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.entity.EntityLevelChangeEvent;
 import cn.nukkit.event.player.PlayerDeathEvent;
+import cn.nukkit.event.player.PlayerRespawnEvent;
 import cn.nukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import cn.nukkit.event.server.DataPacketSendEvent;
 import cn.nukkit.item.Item;
@@ -41,20 +42,8 @@ public class Dimensions extends PluginBase implements Listener {
      */
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event) {
-    	if(event.getEntity().getLocation().getLevel().getDimension() != Level.DIMENSION_OVERWORLD) {
-    		 Player player = event.getEntity();
-    		 Location location = player.getLocation();
-    		 Item[] drops = event.getDrops();
-    		 int xp = event.getExperience();
-    		 location.getLevel().dropExpOrb(location, xp);
-    		 for(Item drop : drops) {
-    			 location.getLevel().dropItem(location, drop);
-    		 }
-    		 event.setDrops(new Item[0]);
-    		 event.setExperience(0);
-    	     player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
-    	}       
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
