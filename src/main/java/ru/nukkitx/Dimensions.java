@@ -43,6 +43,7 @@ public class Dimensions extends PluginBase implements Listener {
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
         player.teleport(player.getSpawn(), TeleportCause.PLUGIN);
     }
 
